@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyLeasing.Web.Data.Entities
 {
-    public class Owner
+    public class Lessee
     {
         public int Id { get; set; }
 
@@ -37,9 +37,6 @@ namespace MyLeasing.Web.Data.Entities
 
         public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";
 
-        public ICollection<Property> Properties { get; set; }
-
         public ICollection<Contract> Contracts { get; set; }
     }
 }
-
