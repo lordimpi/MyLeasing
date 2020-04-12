@@ -22,9 +22,9 @@ namespace MyLeasing.Web.Controllers
         public IActionResult Index()
         {
             return View(_dataContext.Owners
-                .Include(o => o.User)
-                .Include(o => o.Properties)
-                .Include(o => o.Contracts));
+                .Include(ow => ow.User)
+                .Include(ow => ow.Properties)
+                .Include(ow => ow.Contracts));
         }
 
         // GET: Owners/Details/5
@@ -36,7 +36,13 @@ namespace MyLeasing.Web.Controllers
             }
 
             var owner = await _dataContext.Owners
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(ow => ow.User)
+                .Include(ow => ow.Properties)
+                .ThenInclude(pr => pr.PropertyImages)
+                .Include(ow => ow.Contracts)
+                .ThenInclude(con => con.Lessee)
+                .ThenInclude(les => les.User)
+                .FirstOrDefaultAsync(ow => ow.Id == id);
             if (owner == null)
             {
                 return NotFound();
